@@ -8,16 +8,28 @@ export default {
     },
 
     async createProduct(req: Request, response: Response) {
-        const { name, description, rate } = req.body;
-
+        const { name, description, rate, images, prices, technicalDescription, rating } = req.body;
+    
         const product = await prisma.product.create({
             data: {
                 name,
                 description,
-                rate
+                rate,
+                Images: {
+                    create: images
+                },
+                Prices: {
+                    create: prices
+                },
+                TechnicalDescription: {
+                    create: technicalDescription
+                },
+                Rating: {
+                    create: rating
+                }
             }
         });
-
+    
         return response.json(product);
-    },
+    }
 }
