@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import express from "express";
+import ProductController from "./controllers/ProductController";
 
 const prisma = new PrismaClient();
 
@@ -57,6 +58,10 @@ app.delete("/todos/:id", async (req, res) => {
 
   return res.send({ status: "ok" });
 });
+
+app.get("/products", ProductController.getAllProducts);
+
+app.post("/products", ProductController.createProduct);
 
 app.get("/", async (req, res) => {
   res.send(
