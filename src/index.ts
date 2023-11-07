@@ -63,6 +63,14 @@ app.get("/products", ProductController.getAllProducts);
 
 app.post("/products", ProductController.createProduct);
 
+app.get("/products/:id", ProductController.getProductById);
+
+app.put("/products/:id", ProductController.updateProduct);
+
+app.delete("/products/:id", ProductController.deleteProduct);
+
+app.patch("/products/:id", ProductController.patchProduct);
+
 app.get("/", async (req, res) => {
   res.send(
     `
