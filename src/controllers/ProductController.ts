@@ -3,7 +3,14 @@ import { Request, Response } from "express";
 
 export default {
     async getAllProducts(req: Request, response: Response) {
-        const products = await prisma.product.findMany();
+        const products = await prisma.product.findMany({
+            include: {
+                Images: true,
+                Prices: true,
+                TechnicalDescription: true,
+                Rating: true
+            }
+        });
         return response.json(products);
     },
 
