@@ -16,3 +16,81 @@ model Todo {
   text      String
   completed Boolean
 }
+
+model User {
+  id          Int        @id @default(autoincrement())
+  name        String
+  email       String     @unique
+  dateOfBirth DateTime?
+  address     String?
+  Shopping    Shopping[]
+}
+
+model Shopping {
+  id              Int               @id @default(autoincrement())
+  createdAt       DateTime          @default(now())
+  user            User              @relation(fields: [userId], references: [id])
+  userId          Int
+  ShoppingProduct ShoppingProduct[]
+}
+
+model Product {
+  id                   Int                    @id @default(autoincrement())
+  name                 String                 @unique
+  description          String
+  rate                 Int?
+  Images               Images[]
+  Prices               Prices[]
+  TechnicalDescription TechnicalDescription[]
+  Rating               Rating[]
+  ShoppingProduct      ShoppingProduct[]
+}
+
+model ShoppingProduct {
+  id         Int      @id @default(autoincrement())
+  shopping   Shopping @relation(fields: [shoppingId], references: [id])
+  shoppingId Int
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  Int
+}
+
+model Images {
+  id        Int     @id @default(autoincrement())
+  imageUrl  String
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+}
+
+model Prices {
+  id          Int      @id @default(autoincrement())
+  type        String
+  value       Int
+  installment Int?
+  interest    Boolean?
+  discount    Int?
+  product     Product  @relation(fields: [productId], references: [id])
+  productId   Int
+}
+
+model TechnicalDescription {
+  id        Int     @id @default(autoincrement())
+  brand     String
+  model     String
+  color     String
+  material  String
+  width     Int
+  height    Int
+  length    Int
+  weight    Int
+  warranty  Int
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+}
+
+model Rating {
+  id        Int     @id @default(autoincrement())
+  stars     Int
+  message   String
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+}
