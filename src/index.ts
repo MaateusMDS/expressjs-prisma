@@ -3,21 +3,14 @@ import express, { Request, Response } from "express";
 import ProductController from "./controllers/ProductController";
 import UserController from "./controllers/UserController";
 import BasketController from "./controllers/BasketController";
+import Interceptor from './security/Interceptor';
 
 const prisma = new PrismaClient();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use((req: Request, res: Response, next: any) => {
-  const authHeader = req.headers.authorization || '';
-  if (authHeader.split(" ")[1] === "123456") {
-      next();
-  } else {
-      res.status(401).send("Unauthorized");
-      res.end();
-  }
-});
+app.use(Interceptor.validateToken);
 
 app.use(express.json());
 app.use(express.raw({ type: "application/vnd.custom-type" }));
