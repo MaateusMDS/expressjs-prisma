@@ -10,28 +10,21 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Todo {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  text      String
-  completed Boolean
-}
-
 model User {
-  id          Int        @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
-  email       String     @unique
+  email       String    @unique
   dateOfBirth DateTime?
   address     String?
-  Shopping    Shopping[]
+  Shopping    Basket[]
 }
 
-model Shopping {
-  id              Int               @id @default(autoincrement())
-  createdAt       DateTime          @default(now())
-  user            User              @relation(fields: [userId], references: [id])
-  userId          Int
-  ShoppingProduct ShoppingProduct[]
+model Basket {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  products  Product[]
 }
 
 model Product {
@@ -43,15 +36,8 @@ model Product {
   Prices               Prices[]
   TechnicalDescription TechnicalDescription[]
   Rating               Rating[]
-  ShoppingProduct      ShoppingProduct[]
-}
-
-model ShoppingProduct {
-  id         Int      @id @default(autoincrement())
-  shopping   Shopping @relation(fields: [shoppingId], references: [id])
-  shoppingId Int
-  product    Product  @relation(fields: [productId], references: [id])
-  productId  Int
+  Basket               Basket?                @relation(fields: [basketId], references: [id])
+  basketId             Int?
 }
 
 model Images {
@@ -92,5 +78,5 @@ model Rating {
   stars     Int
   message   String
   product   Product @relation(fields: [productId], references: [id])
-  productId Int
+  productId Int
 }
