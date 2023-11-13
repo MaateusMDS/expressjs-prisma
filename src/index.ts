@@ -5,6 +5,7 @@ import cors from 'cors'
 import UserController from "./controllers/UserController";
 import BasketController from "./controllers/BasketController";
 import Interceptor from './security/Interceptor';
+import AuthController from "./controllers/AuthController";
 
 const prisma = new PrismaClient();
 
@@ -38,16 +39,12 @@ app.delete("/users/:id", UserController.deleteUser);
 app.get("/basket/:id", BasketController.getBasketByUserId);
 app.post("/basket", BasketController.createBasket);
 
-app.get("/", async (req, res) => {
-  res.send(
-    `
-  <pre>
-  GET, POST /products
-  GET, PUT, PATCH, DELETE /products/:id
-  </pre>
-  `.trim(),
-  );
-});
+//ROTAS DO BASKET
+app.get("/basket/:id", BasketController.getBasketByUserId);
+app.post("/basket", BasketController.createBasket);
+
+app.post("/login", AuthController.loginUser);
+app.post("/register", AuthController.registerUser);
 
 app.listen(Number(port), "0.0.0.0", () => {
     console.log(`Example app listening at http://localhost:${port}`);
