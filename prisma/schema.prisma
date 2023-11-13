@@ -21,11 +21,11 @@ model User {
 }
 
 model Basket {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  user      User      @relation(fields: [userId], references: [id])
-  userId    Int
-  products  Product[]
+  id            Int             @id @default(autoincrement())
+  createdAt     DateTime        @default(now())
+  user          User            @relation(fields: [userId], references: [id])
+  userId        Int
+  BasketProduct BasketProduct[]
 }
 
 model Product {
@@ -37,8 +37,16 @@ model Product {
   Prices               Prices[]
   TechnicalDescription TechnicalDescription[]
   Rating               Rating[]
-  Basket               Basket?                @relation(fields: [basketId], references: [id])
-  basketId             Int?
+
+  BasketProduct BasketProduct[]
+}
+
+model BasketProduct {
+  id        Int     @id @default(autoincrement())
+  basket    Basket  @relation(fields: [basketId], references: [id])
+  basketId  Int
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
 }
 
 model Images {
