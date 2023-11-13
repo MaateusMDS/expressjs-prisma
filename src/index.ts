@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import express, { Request, Response } from "express";
 import ProductController from "./controllers/ProductController";
+import cors from 'cors'
 import UserController from "./controllers/UserController";
 import BasketController from "./controllers/BasketController";
 import Interceptor from './security/Interceptor';
@@ -10,6 +11,8 @@ const prisma = new PrismaClient();
 const app = express();
 const port = process.env.PORT || 3000;
 
+
+app.use(cors());
 app.use(Interceptor.validateToken);
 
 app.use(express.json());
