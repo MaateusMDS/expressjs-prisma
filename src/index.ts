@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import express, { Request, Response } from "express";
 import ProductController from "./controllers/ProductController";
 import UserController from "./controllers/UserController";
+import BasketController from "./controllers/BasketController";
 
 const prisma = new PrismaClient();
 
@@ -36,6 +37,10 @@ app.post("/users", UserController.createUser);
 app.get("/users/:id", UserController.getUserById);
 app.put("/users/:id", UserController.updateUser);
 app.delete("/users/:id", UserController.deleteUser);
+
+//ROTAS DO BASKET
+app.get("/basket/:id", BasketController.getBasketByUserId);
+app.post("/basket", BasketController.createBasket);
 
 app.get("/", async (req, res) => {
   res.send(
