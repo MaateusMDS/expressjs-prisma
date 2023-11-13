@@ -36,7 +36,8 @@ export default {
             const user = await prisma.user.create({
                 data: {
                     name,
-                    email, 
+                    email,
+                    password,
                     dateOfBirth,
                     address
                 }
