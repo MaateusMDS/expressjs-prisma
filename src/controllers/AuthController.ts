@@ -40,29 +40,22 @@ export default {
     async loginUser(req: Request, response: Response) {
         try {
             const { email, password } = req.body
-
-            const validEmail = await prisma.user.findUnique({ where: { email } });
-
-            if (!validEmail) {
+    
+            const user = await prisma.user.findUnique({ where: { email } });
+    
+            if (!user) {
                 return response.status(401).json({ error: 'Email not found' });
             }
-
-            const hashPass = await bcrypt.hash(password, 8);
-
-            const user = await prisma.user.findUnique({
-                where: {
-                    email,
-                    password: hashPass
-                }
-            })
-
-            if (!user) {
+    
+            const validPassword = await bcrypt.compare(password, user.password);
+    
+            if (!validPassword) {
                 return response.status(401).json({ error: 'Incorrect password' });
             }
-
-            const payload = { name: user?.name, email: user?.email, dateOfBirth: user?.dateOfBirth, address: user?.address };
+    
+            const payload = { name: user.name, email: user.email, dateOfBirth: user.dateOfBirth, address: user.address };
             const token = jwt.sign(payload, environment.jwtSecretKey, { expiresIn: '12h' });
-
+    
             return response.status(201).json({ token });
         } catch (error) {
             return response.status(500).json({ error: 'Erro interno do servidor' });
