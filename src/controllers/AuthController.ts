@@ -53,7 +53,9 @@ export default {
                 return response.status(401).json({ error: 'Incorrect password' });
             }
     
-            const payload = { name: user.name, email: user.email, dateOfBirth: user.dateOfBirth, address: user.address };
+            const payload = {
+                user: {
+                    id: user.id, name: user.name, email: user.email, dateOfBirth: user.dateOfBirth, address: user.address }};
             const token = jwt.sign(payload, environment.jwtSecretKey, { expiresIn: '12h' });
     
             return response.status(201).json({ token });
