@@ -34,6 +34,11 @@ export default {
     async createUser(req: Request, response: Response) {
         try {
             const { name, email, password, dateOfBirth, address} = req.body
+
+            const existUser = await prisma.user.findUnique({ where: { email } });
+            if (existUser) {
+                return response.status(400).json({ error: 'User exists' });
+            }
         
             const hashPass = await bcrypt.hash(password, 8);
 
