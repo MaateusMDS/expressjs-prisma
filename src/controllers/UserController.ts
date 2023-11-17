@@ -1,5 +1,6 @@
 import { prisma } from "../server";
 import { Request, Response } from "express";
+import bcrypt from 'bcrypt'
 
 export default {
     async getAllUsers(req: Request, response: Response) {
@@ -104,6 +105,26 @@ export default {
             })
 
             return response.status(200).json(newUser)
+        } catch (error) {
+            return response.status(500).json({ error: 'Erro interno do servidor' });
+        }
+    },
+
+    async updatePassword(req: Request, response: Response) {
+        try {
+            const { id } = req.params;
+            const { password } = req.body;
+
+            const hashPass = await bcrypt.hash(password, 8);
+
+            const user = await prisma.user.update({
+                where: {
+                    id: Number(id)
+                },
+                data: {
+                    password: hashPass
+                }
+            })
         } catch (error) {
             return response.status(500).json({ error: 'Erro interno do servidor' });
         }

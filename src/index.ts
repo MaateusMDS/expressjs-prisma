@@ -37,6 +37,8 @@ app.get("/users/:id", UserController.getUserById);
 app.put("/users/:id", UserController.updateUser);
 app.delete("/users/:id", UserController.deleteUser);
 
+app.post("/changePassword/:id", UserController.updatePassword);
+
 //ROTAS DO BASKET
 app.get("/basket/:id", BasketController.getBasketByUserId);
 app.post("/basket", BasketController.createBasket);
