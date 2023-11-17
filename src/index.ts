@@ -6,6 +6,7 @@ import UserController from "./controllers/UserController";
 import BasketController from "./controllers/BasketController";
 import Interceptor from './security/Interceptor';
 import AuthController from "./controllers/AuthController";
+import BasketProductController from "./controllers/BasketProductController";
 
 const prisma = new PrismaClient();
 
@@ -39,9 +40,9 @@ app.delete("/users/:id", UserController.deleteUser);
 app.get("/basket/:id", BasketController.getBasketByUserId);
 app.post("/basket", BasketController.createBasket);
 
-//ROTAS DO BASKET
-app.get("/basket/:id", BasketController.getBasketByUserId);
-app.post("/basket", BasketController.createBasket);
+//ROTAS DO BASKETPRODUCT
+app.get("/basketProduct/:id", BasketProductController.getAllBasketProductByBasketId);
+app.post("/basketProduct", BasketProductController.createBasketProduct);
 
 app.post("/login", AuthController.loginUser);
 app.post("/register", AuthController.registerUser);
