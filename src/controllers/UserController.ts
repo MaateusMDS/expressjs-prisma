@@ -34,11 +34,14 @@ export default {
     async createUser(req: Request, response: Response) {
         try {
             const { name, email, password, dateOfBirth, address} = req.body
+        
+            const hashPass = await bcrypt.hash(password, 8);
+
             const user = await prisma.user.create({
                 data: {
                     name,
                     email,
-                    password,
+                    password: hashPass,
                     dateOfBirth,
                     address
                 }
