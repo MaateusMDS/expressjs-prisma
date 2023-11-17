@@ -7,6 +7,7 @@ import BasketController from "./controllers/BasketController";
 import Interceptor from './security/Interceptor';
 import AuthController from "./controllers/AuthController";
 import BasketProductController from "./controllers/BasketProductController";
+import EmailController from "./controllers/EmailController";
 
 const prisma = new PrismaClient();
 
@@ -15,7 +16,7 @@ const port = process.env.PORT || 3000;
 
 
 app.use(cors());
-app.use(Interceptor.validateToken);
+// app.use(Interceptor.validateToken);
 
 app.use(express.json());
 app.use(express.raw({ type: "application/vnd.custom-type" }));
@@ -45,7 +46,7 @@ app.get("/basketProduct/:id", BasketProductController.getAllBasketProductByBaske
 app.post("/basketProduct", BasketProductController.createBasketProduct);
 
 app.post("/login", AuthController.loginUser);
-app.post("/register", AuthController.registerUser);
+app.post("/register", EmailController.createAccount);
 
 app.listen(Number(port), "0.0.0.0", () => {
     console.log(`Example app listening at http://localhost:${port}`);

@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import { environment } from "../enviroment";
+import EmailController from "./EmailController";
 
 
 export default {
@@ -55,7 +56,12 @@ export default {
     
             const payload = {
                 user: {
-                    id: user.id, name: user.name, email: user.email, dateOfBirth: user.dateOfBirth, address: user.address }};
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    dateOfBirth: user.dateOfBirth,
+                    address: user.address
+                }}
             const token = jwt.sign(payload, environment.jwtSecretKey, { expiresIn: '12h' });
     
             return response.status(201).json({ token });
