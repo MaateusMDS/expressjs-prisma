@@ -34,7 +34,7 @@ export default {
     
             return response.status(201).json({ token });
         } catch (error) {
-            return response.status(500).json({ error: 'Erro interno do servidor' });
+            return response.status(500).json({ error: error });
         }
     },
 

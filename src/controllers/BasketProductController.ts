@@ -29,7 +29,7 @@ export default {
 
             return response.status(201).json(basketProduct);
         } catch (error) {
-            return response.status(500).json({ error: 'Erro interno do servidor' });
+            return response.status(500).json({ error: error });
         }
     }
 }
